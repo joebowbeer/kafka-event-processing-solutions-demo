@@ -21,7 +21,7 @@ A hands-on reference implementation showcasing four ways to build event-driven p
 ## Prerequisites
 
 - Docker & Docker Compose (v1.27+)
-- Java 17, Maven (if building locally)
+- Java 21, Maven (if building locally)
 
 ---
 

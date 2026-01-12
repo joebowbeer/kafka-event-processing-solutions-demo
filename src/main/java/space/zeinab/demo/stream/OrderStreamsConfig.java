@@ -8,7 +8,6 @@ import org.apache.kafka.streams.kstream.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.annotation.EnableKafkaStreams;
 import space.zeinab.demo.avro.Order;
 import space.zeinab.demo.avro.SessionSummary;
 
@@ -18,7 +17,6 @@ import java.util.Collections;
 import java.util.Map;
 
 @Configuration
-@EnableKafkaStreams
 public class OrderStreamsConfig {
 
     @Value("${app.topic.name}")
@@ -35,6 +33,17 @@ public class OrderStreamsConfig {
 
     @Value("${stream.session.grace-period.minutes}")
     private long gracePeriod;
+
+    @Bean("streamsConfigs")
+    @org.springframework.boot.context.properties.ConfigurationProperties(prefix = "spring.kafka.streams")
+    public java.util.Map<String, Object> streamsConfigs() {
+        return new java.util.HashMap<>();
+    }
+
+    @Bean(name = "defaultKafkaStreamsConfig")
+    public org.springframework.kafka.config.KafkaStreamsConfiguration defaultKafkaStreamsConfig(@org.springframework.beans.factory.annotation.Qualifier("streamsConfigs") java.util.Map<String, Object> streamsConfigs) {
+        return new org.springframework.kafka.config.KafkaStreamsConfiguration(streamsConfigs);
+    }
 
     @Bean
     public KStream<String, Order> kStream(StreamsBuilder builder) {
