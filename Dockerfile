@@ -11,7 +11,7 @@ RUN mvn clean package -DskipTests
 ###############################################################################
 # Stage 1: Kafka Connect with JDBC Sink
 ###############################################################################
-FROM confluentinc/cp-kafka-connect:7.4.0 AS connect-base
+FROM confluentinc/cp-kafka-connect:8.1.1 AS connect-base
 RUN confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:latest
 ENV CONNECT_PLUGIN_PATH=/usr/share/java,/usr/share/confluent-hub-components
 
